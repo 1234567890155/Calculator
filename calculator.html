@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #calculator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
+      max-width: 300px;
+      background-color: lightgreen;
+    }
+
+    input {
+      grid-column: span 4;
+      padding: 10px;
+      font-size: 18px;
+      text-align: right;
+    }
+
+    button {
+      padding: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .equal-pressed {
+      background-color: yellow; /* Change the background color as desired */
+    }
+    
+  </style>
+  <title>Simple Calculator</title>
+</head>
+
+<body>
+
+  <h1>Simple Calculator</h1>
+
+  <div id="calculator">
+    <input type="text" id="display" readonly>
+    <button onclick="appendToDisplay('1')">1</button>
+    <button onclick="appendToDisplay('2')">2</button>
+    <button onclick="appendToDisplay('3')">3</button>
+    <button onclick="appendToDisplay('+')">+</button>
+    <button onclick="appendToDisplay('4')">4</button>
+    <button onclick="appendToDisplay('5')">5</button>
+    <button onclick="appendToDisplay('6')">6</button>
+    <button onclick="appendToDisplay('-')">-</button>
+    <button onclick="appendToDisplay('7')">7</button>
+    <button onclick="appendToDisplay('8')">8</button>
+    <button onclick="appendToDisplay('9')">9</button>
+    <button onclick="appendToDisplay('*')">*</button>
+    <button onclick="appendToDisplay('0')">0</button>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="calculateResult()" id="equalButton">=</button>
+    <button onclick="appendToDisplay('/')">/</button>
+    <button onclick="backspace()">←</button>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const title = document.querySelector('h1');
+    const equalButton = document.getElementById('equalButton');
+
+    function appendToDisplay(value) {
+      display.value += value;
+      updateTitle();
+    }
+
+    function clearDisplay() {
+      display.value = '';
+      updateTitle();
+    }
+
+    function calculateResult() {
+      try {
+        const result = eval(display.value);
+        display.value = isNaN(result) ? 'Error' : result;
+        updateTitle();
+        equalButton.classList.add('equal-pressed');
+        // Remove the class after a short delay to visually indicate the click
+        setTimeout(() => equalButton.classList.remove('equal-pressed'), 200);
+      } catch (error) {
+        display.value = 'Error';
+        updateTitle();
+        equalButton.classList.add('equal-pressed');
+        setTimeout(() => equalButton.classList.remove('equal-pressed'), 200);
+      }
+    }
+
+    function updateTitle() {
+      if (display.value === '') {
+        title.textContent = 'Simple Calculator';
+      } else {
+        title.textContent = 'Calculating';
+      }
+    }
+
+    function backspace() {
+      display.value = display.value.slice(0, -1);
+      updateTitle();
+    }
+  </script>
+
+</body>
+
+</html>
